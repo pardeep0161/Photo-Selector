@@ -4,29 +4,51 @@
     <title>Photo Selector</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        body {
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        .main-content {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 0;
+            min-width: 0;
+            overflow: hidden;
         }
         #imgslot {
-            max-width: 90vw;
-            max-height: 60vh;
-            width: auto;
-            height: auto;
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
             display: block;
-            margin: 20px auto;
+            margin: 0;
+            background: #222;
+            max-width: 100vw;
+            max-height: 100vh;
         }
-        form {
+        .bottom-bar {
+            width: 100%;
             display: flex;
-            gap: 10px;
-            flex-wrap: nowrap; /* Force side by side */
             justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 20px 0 30px 0;
+            background: rgba(255,255,255,0.95);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
         }
         button[name="button"][value="accept"] {
             background-color: #4CAF50;
@@ -55,40 +77,46 @@
             font-size: 1rem;
             cursor: pointer;
         }
+        .info-bar {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 20;
+            color: #222;
+            font-weight: bold;
+            background: rgba(255,255,255,0.7);
+            padding: 8px 0;
+        }
         @media (max-width: 600px) {
             #imgslot {
                 max-width: 100vw;
-                max-height: 40vh;
-            }
-            button {
-                width: auto; /* Remove 100% width */
-                margin-bottom: 0; /* Remove bottom margin */
-            }
-            form {
-                flex-direction: row; /* Force row direction */
-                gap: 10px;
+                max-height: 100vh;
             }
         }
     </style>
 </head>
 <body>
-    {% if img_data %}
-        <img 
-            src="data:image/jpg;base64, {{ img_data }}" 
-            alt="img_data"  id="imgslot" />
-    {% endif %}
-    {% if remaining_count is defined %}
-        <p><strong>Photos left:</strong> {{ remaining_count }}</p>
-    {% endif %}
-    {% if msg %}
-        <p>{{ msg }}</p>
-    {% endif %}
-    <br />
-    <form method="post">
+    <div class="main-content">
+        {% if img_data %}
+            <img 
+                src="data:image/jpg;base64, {{ img_data }}" 
+                alt="img_data"  id="imgslot" />
+        {% endif %}
+        <div class="info-bar">
+            {% if remaining_count is defined %}
+                <span><strong>Photos left:</strong> {{ remaining_count }}</span>
+            {% endif %}
+            {% if msg %}
+                <span>{{ msg }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <form method="post" class="bottom-bar">
         <button type="submit" name="button" value="accept">Accept</button>
         <button type="submit" name="button" value="not_sure">Not Sure</button>
         <button type="submit" name="button" value="reject">Reject</button>
     </form>
-    <br />
 </body>
 </html>
