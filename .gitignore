@@ -1,0 +1,5 @@
+.venv
+.env
+*.json
+selection_files
+*__pycache__*

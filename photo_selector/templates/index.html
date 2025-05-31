@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photo Selector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #imgslot {
+            max-width: 90vw;
+            max-height: 60vh;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap; /* Force side by side */
+            justify-content: center;
+        }
+        button[name="button"][value="accept"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button[name="button"][value="reject"] {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button[name="button"][value="not_sure"] {
+            background-color: #FFD600;
+            color: #333;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            #imgslot {
+                max-width: 100vw;
+                max-height: 40vh;
+            }
+            button {
+                width: auto; /* Remove 100% width */
+                margin-bottom: 0; /* Remove bottom margin */
+            }
+            form {
+                flex-direction: row; /* Force row direction */
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if img_data %}
+        <img 
+            src="data:image/jpg;base64, {{ img_data }}" 
+            alt="img_data"  id="imgslot" />
+    {% endif %}
+    {% if remaining_count is defined %}
+        <p><strong>Photos left:</strong> {{ remaining_count }}</p>
+    {% endif %}
+    {% if msg %}
+        <p>{{ msg }}</p>
+    {% endif %}
+    <br />
+    <form method="post">
+        <button type="submit" name="button" value="accept">Accept</button>
+        <button type="submit" name="button" value="not_sure">Not Sure</button>
+        <button type="submit" name="button" value="reject">Reject</button>
+    </form>
+    <br />
+</body>
+</html>

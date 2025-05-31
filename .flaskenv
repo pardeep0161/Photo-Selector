@@ -1,0 +1,2 @@
+FLASK_APP=photo_selector
+FLASK_DEBUG=1
